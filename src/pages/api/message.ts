@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   let message: string | string[] | undefined;
   let number: string | string[] | undefined;
 
   if (req.method == "POST") {
-    message = req.body["Body"];
-    number = req.body["From"];
+    message = req.body.Body;
+    number = req.body.From;
   }
 
   if (!message || !number) {
