@@ -5,8 +5,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   let number: string | string[] | undefined;
 
   if (req.method == "POST") {
-    message = req.body;
-    number = req.body;
+    message = req.body.Body;
+    number = req.body.From;
   }
 
   if (!message || !number) {
