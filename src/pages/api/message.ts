@@ -109,7 +109,7 @@ export default async function handler(
     return res.status(500).send("<Response></Response>");
   }
 
-  void notion.pages.create({
+  const created = await notion.pages.create({
     parent: {
       database_id: redis_resp.data.database_id,
     },
@@ -144,7 +144,7 @@ export default async function handler(
     },
   });
 
-  console.log();
+  console.log(created);
 
   res.send("<Response></Response>");
 }
