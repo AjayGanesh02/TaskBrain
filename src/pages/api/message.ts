@@ -57,8 +57,8 @@ export default async function handler(
   });
 
   const category_options =
-    database.properties["Category"]?.type == "select" &&
-    database.properties["Category"].select.options;
+    database.properties.Category?.type == "select" &&
+    database.properties.Category.select.options;
   if (!category_options) {
     return res.send("<Response></Response>");
   }
@@ -91,8 +91,9 @@ export default async function handler(
     console.log("chatgpt screwed up");
     return res.send("<Response></Response>");
   }
-  const jsonChat = JSON.parse(completion_message);
-  const parsed_task = chatResponseSchema.safeParse(jsonChat);
+  const parsed_task = chatResponseSchema.safeParse(
+    JSON.parse(completion_message)
+  );
   if (!parsed_task.success) {
     console.log("task not parsed");
     return res.send("<Response></Response>");
@@ -108,7 +109,7 @@ export default async function handler(
     return res.send("<Response></Response>");
   }
 
-  const created_page = await notion.pages.create({
+  void notion.pages.create({
     parent: {
       database_id: redis_resp.data.database_id,
     },

@@ -34,11 +34,11 @@ function App() {
       setLogged(true);
     };
     void atfetch();
-  }, []);
+  }, [logged]);
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data, error, isLoading } = useSWR<DatabaseObjectResponse[]>(
+  const { data } = useSWR<DatabaseObjectResponse[]>(
     `/api/databases?access_token=${access_token}`,
     fetcher
   );
@@ -50,7 +50,7 @@ function App() {
       >
         Connect to Notion
       </a>
-      {data && data.map((db, id) => (
+      {data?.map((db, id) => (
         <div
           style={{
             display: "inline-flex",

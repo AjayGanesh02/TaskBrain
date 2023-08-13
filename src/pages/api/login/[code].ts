@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { env } from "process";
-import { Client } from "@notionhq/client";
 
 export default async function handler(
   req: NextApiRequest,
