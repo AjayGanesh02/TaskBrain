@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 import { env } from "process";
 import { Client } from "@notionhq/client";
@@ -15,7 +15,7 @@ export default async function handler(
       : "https://task-brain.vercel.app";
 
   // Generate an access token with the code we got earlier and the client_id and client_secret we retrived earlier
-  const resp = await axios({
+  const resp: { data: { access_token: string } } = await axios({
     method: "POST",
     url: "https://api.notion.com/v1/oauth/token",
     auth: {

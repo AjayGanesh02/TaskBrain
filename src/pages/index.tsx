@@ -1,8 +1,9 @@
+import type { DatabaseObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { env } from "process";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [dbs, setdbs] = useState([]);
+  const [dbs, setdbs] = useState<DatabaseObjectResponse[]>([]);
   const redirect =
     env.NODE_ENV == "development"
       ? "http://localhost:3000"
@@ -13,11 +14,11 @@ function App() {
     const params = new URL(window.document.location.toString()).searchParams;
     const code = params.get("code");
     if (!code) return;
-    fetch(`http://localhost:3000/api/login/${code}`).then(async (resp) => {
-      const final = await resp.json();
-      console.log(final);
-      setdbs(final);
-    });
+    const dbfetch = async () => {
+      const resp = await fetch(`http://localhost:3000/api/login/${code}`);
+      setdbs(await resp.json());
+    };
+    void dbfetch();
   }, []);
 
   return (
