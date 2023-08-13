@@ -27,13 +27,13 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method != "POST") {
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
 
   const body_parsed = bodySchema.safeParse(req.body);
 
   if (!body_parsed.success) {
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
 
   const number = body_parsed.data.From;
@@ -42,7 +42,7 @@ export default async function handler(
   const data = await kv.hgetall<Record<string, string>>(`user:${number}`);
   const redis_resp = redisSchema.safeParse(data);
   if (!redis_resp.success) {
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
   console.log(redis_resp.data.access_token);
   console.log(redis_resp.data.database_id);
@@ -60,7 +60,7 @@ export default async function handler(
     database.properties.Category?.type == "select" &&
     database.properties.Category.select.options;
   if (!category_options) {
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
 
   const configuration = new Configuration({
@@ -89,14 +89,14 @@ export default async function handler(
 
   if (!completion_message) {
     console.log("chatgpt screwed up");
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
   const parsed_task = chatResponseSchema.safeParse(
     JSON.parse(completion_message)
   );
   if (!parsed_task.success) {
     console.log("task not parsed");
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
 
   const category = category_options.find((elt) => {
@@ -106,7 +106,7 @@ export default async function handler(
   if (!category) {
     console.log("no category");
     console.log(category_options);
-    return res.send("<Response></Response>");
+    return res.status(500).send("<Response></Response>");
   }
 
   void notion.pages.create({
