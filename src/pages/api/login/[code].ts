@@ -43,18 +43,7 @@ export default async function handler(
   //     }),
   //   });
 
-  console.log(resp);
+  console.log(resp.data.access_token);
 
-  const notion = new Client({
-    auth: resp.data.access_token,
-  });
-
-  const data = await notion.search({
-    filter: {
-      property: "object",
-      value: "database",
-    },
-  });
-
-  res.json(data?.results || []);
+  res.json({ access_token: resp.data.access_token });
 }

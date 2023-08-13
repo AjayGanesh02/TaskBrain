@@ -11,6 +11,7 @@ export const env = createEnv({
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     NOTION_CLIENT_ID: z.string(),
     NOTION_CLIENT_SECRET: z.string(),
+    OPENAI_API_TOKEN: z.string(),
   },
 
   /**
@@ -30,6 +31,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     NOTION_CLIENT_ID: process.env.NOTION_CLIENT_ID,
     NOTION_CLIENT_SECRET: process.env.NOTION_CLIENT_SECRET,
+    OPENAI_API_TOKEN: process.env.OPENAI_API_TOKEN,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.
