@@ -18,7 +18,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     return res.json({ error: "invalid" });
   }
 
-  void kv.hset(`user:1${parsed.data.phone}`, {
+  void kv.hset(`user:+1${parsed.data.phone}`, {
     access_token: parsed.data.access_token,
     database_id: parsed.data.database_id,
   });
