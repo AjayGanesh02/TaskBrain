@@ -43,26 +43,27 @@ function App() {
     fetcher
   );
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center">
+      <div className="h-20"></div>
       <a
-        style={{ display: "block" }}
         href={`https://api.notion.com/v1/oauth/authorize?client_id=4e3bc30d-04bd-4e08-bdfe-55a0562492be&response_type=code&owner=user&redirect_uri=${redirect}`}
       >
-        Connect to Notion
+        <div className="border border-black rounded-md p-6 bg-slate-200">
+          Connect to Notion
+        </div>
       </a>
       {data?.map((db, id) => (
-        <div
-          style={{
-            display: "inline-flex",
-            whiteSpace: "pre",
-            border: "1px solid black",
-            marginBottom: 10,
-          }}
-          key={id}
-        >
-          <p>{db.title[0]?.plain_text}</p>
-          {db.icon?.type == "emoji" ? db.icon.emoji : ""}
-          <form action="/api/activate" method="post">
+        <div className="flex flex-row items-center" key={id}>
+          <p>
+            {db.icon?.type == "emoji" ? db.icon.emoji : ""}
+            {db.title[0]?.plain_text}{" "}
+          </p>
+
+          <form
+            action="/api/activate"
+            method="post"
+            className="flex flex-col p-6"
+          >
             <input
               type="hidden"
               name="access_token"
@@ -76,8 +77,16 @@ function App() {
               value={db.id}
             ></input>
             <label htmlFor="phone">10 digit phone number</label>
-            <input type="tel" id="phone" name="phone" required></input>
-            <button type="submit">Use This Database</button>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              className="border border-black"
+              required
+            ></input>
+            <button type="submit" className="border border-black rounded-md">
+              Use This Database
+            </button>
           </form>
         </div>
       ))}
