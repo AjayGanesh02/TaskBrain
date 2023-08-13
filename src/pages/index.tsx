@@ -15,7 +15,7 @@ function App() {
     const code = params.get("code");
     if (!code) return;
     const dbfetch = async () => {
-      const resp = await fetch(`http://localhost:3000/api/login/${code}`);
+      const resp = await fetch(`/api/login/${code}`);
       setdbs(await resp.json());
     };
     void dbfetch();
