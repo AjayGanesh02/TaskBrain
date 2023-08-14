@@ -14,6 +14,7 @@ const redisSchema = z.object({
 const bodySchema = z.object({
   From: z.string(),
   Body: z.string(),
+  FromZip: z.string(),
 });
 
 const chatResponseSchema = z.object({
@@ -38,6 +39,7 @@ export default async function handler(
 
   const number = body_parsed.data.From;
   const message = body_parsed.data.Body;
+  const zip = body_parsed.data.FromZip;
 
   const data = await kv.hgetall<Record<string, string>>(`user:${number}`);
   const redis_resp = redisSchema.safeParse(data);
@@ -74,7 +76,7 @@ export default async function handler(
     messages: [
       {
         role: "system",
-        content: generatePrompt(redis_resp.data.user_info ?? ""),
+        content: generatePrompt(redis_resp.data.user_info ?? "", zip),
       },
       {
         role: "user",
@@ -149,15 +151,15 @@ export default async function handler(
   res.send("<Response></Response>");
 }
 
-function generatePrompt(user_info: string): string {
+function generatePrompt(user_info: string, zip: string): string {
   const currentdate = new Date();
   return `
     The current date is ${currentdate.toString()}.
-    For each message, you need to output a JSON object that categorizes and formats the task described in the message 
-    The output has the following keys: 
+    For each message, you need to output a JSON object that categorizes and formats the task described in the message
+    The output has the following keys:
     - task, a string 
     - category, a string that that is one of "Research", "Personal", "Work", or "School"
-    - complete_by, (optional) an ISO 8601 date and optional time and timezone
+    - complete_by, (optional) an ISO 8601 date and optional time with the time zone of the zip code ${zip}
     ${
       user_info
         ? "The person has provided the following info to help in categorizing:" +
