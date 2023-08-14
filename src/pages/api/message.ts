@@ -155,11 +155,10 @@ function generatePrompt(user_info: string, zip: string): string {
   const currentdate = new Date();
   return `
     The current date is ${currentdate.toString()}.
-    For each message, you need to output a JSON object that categorizes and formats the task described in the message
-    The output has the following keys:
+    For each message, output a JSON object with the following keys that categorizes and formats the task described in the message:
     - task, a string 
     - category, a string that that is one of "Research", "Personal", "Work", or "School"
-    - complete_by, (optional) an ISO 8601 date and optional time with the time zone of the zip code ${zip}
+    - complete_by, an optional ISO 8601 string. If a date and time is specified, use the time zone of the zip code ${zip}. Otherwise if a day is specified, only provide that date.
     ${
       user_info
         ? "The person has provided the following info to help in categorizing:" +
