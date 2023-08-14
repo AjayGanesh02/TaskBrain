@@ -157,7 +157,7 @@ function generatePrompt(user_info: string): string {
     The output has the following keys: 
     - task, a string 
     - category, a string that that is one of "Research", "Personal", "Work", or "School"
-    - complete_by, an optional string of the format "yyyy-mm-dd"
+    - complete_by, (optional) an ISO 8601 date and optional time
     ${
       user_info
         ? "The person has provided the following info to help in categorizing:" +
